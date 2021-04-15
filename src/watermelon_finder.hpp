@@ -5,12 +5,14 @@
 #include <vector>
 #include <tuple>
 #include <sensor_msgs/Image.h>
+#include <opencv2/opencv.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <image_transport/image_transport.h>
 #include <cv_bridge/cv_bridge.h>
 
 #define NAV_DEBUG 1
+#define IMG_DEBUG 1
 
 typedef actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> MoveBaseClient;
 typedef std::tuple<double, double, double, double> Goal;

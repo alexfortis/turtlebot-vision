@@ -10,7 +10,14 @@ bool found_watermelon() {
 }
 
 void callback_camera(const sensor_msgs::Image::ConstPtr& img_msg) {
+#if IMG_DEBUG
+  ROS_INFO("Getting image");
+#endif
   img = cv_bridge::toCvCopy(img_msg, img_msg->encoding);
+  cv::namedWindow("Robot View", cv::WINDOW_AUTOSIZE);
+  cv::imshow("Robot View", img->image);
+  cv::waitKey(5);
+  cv::destroyWindow("Robot View");
 }
 
 std::ostream &operator<<(std::ostream &os, const Goal &g) {
@@ -36,9 +43,9 @@ int main(int argc, char** argv){
 
   move_base_msgs::MoveBaseGoal goal;
   vector<Goal> goals;
-  goals.push_back(make_tuple(5.42, 2.72, -0.7, 0.7));
-  goals.push_back(make_tuple(4.05, -4.43, 1.0, 0.0));
   goals.push_back(make_tuple(-6.38, -1.5, 1.0, 0.0));
+  goals.push_back(make_tuple(4.05, -4.43, 1.0, 0.0));
+  goals.push_back(make_tuple(5.42, 2.72, -0.7, 0.7));
 
   for(auto it = goals.begin(); it != goals.end(); ++it) {
     goal.target_pose.header.frame_id = "map";
