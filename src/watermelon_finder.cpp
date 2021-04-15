@@ -3,8 +3,14 @@
 using std::vector;
 using std::make_tuple;
 
-bool found_watermelon() {
+cv_bridge::CvImagePtr img;
+
+bool found_watermelon(const ros::Subscriber &sub) {
   return false;
+}
+
+void callback_camera(const sensor_msgs::Image::ConstPtr& img_msg) {
+  img = cv_bridge::toCvCopy(img_msg, img_msg->encoding);
 }
 
 std::ostream &operator<<(std::ostream &os, const Goal &g) {
@@ -15,6 +21,10 @@ std::ostream &operator<<(std::ostream &os, const Goal &g) {
 
 int main(int argc, char** argv){
   ros::init(argc, argv, "watermelon_finder");
+
+  //use to process images
+  ros::NodeHandle nh;
+  ros::Subscriber cam_sub = nh.subscribe("/camera/rgb/image_raw", 1, callback_camera);
 
   //tell the action client that we want to spin a thread by default
   MoveBaseClient ac("move_base", true);
@@ -46,7 +56,8 @@ int main(int argc, char** argv){
 
     if(ac.getState() == actionlib::SimpleClientGoalState::SUCCEEDED) {
       ROS_INFO("The base successfully moved to (%.2f, %.2f)", std::get<0>(*it), std::get<1>(*it));
-      ROS_INFO("%s", found_watermelon()?"True":"False");
+      ros::spinOnce();
+      ROS_INFO("%s", found_watermelon(cam_sub)?"True":"False");
     }
     else
       ROS_INFO("The base failed to move to (%.2f, %.2f)", std::get<0>(*it), std::get<1>(*it));
