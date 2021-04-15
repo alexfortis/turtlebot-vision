@@ -13,11 +13,14 @@ void callback_camera(const sensor_msgs::Image::ConstPtr& img_msg) {
 #if IMG_DEBUG
   ROS_INFO("Getting image");
 #endif
-  img = cv_bridge::toCvCopy(img_msg, img_msg->encoding);
+  img = cv_bridge::toCvCopy(img_msg, "bgr8");
+#if IMG_DEBUG
   cv::namedWindow("Robot View", cv::WINDOW_AUTOSIZE);
   cv::imshow("Robot View", img->image);
-  cv::waitKey(5);
+  cv::waitKey(0);
   cv::destroyWindow("Robot View");
+  ROS_INFO("Showed the image");
+#endif
 }
 
 std::ostream &operator<<(std::ostream &os, const Goal &g) {
