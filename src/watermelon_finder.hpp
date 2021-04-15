@@ -8,6 +8,6 @@
 #define NAV_DEBUG 1
 
 typedef actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> MoveBaseClient;
-typedef std::tuple<double, double, double> Goal;
+typedef std::tuple<double, double, double, double> Goal;
 
 bool found_watermelon();
