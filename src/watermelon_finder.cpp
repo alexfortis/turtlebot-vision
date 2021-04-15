@@ -5,7 +5,7 @@ using std::make_tuple;
 
 cv_bridge::CvImagePtr img;
 
-bool found_watermelon(const ros::Subscriber &sub) {
+bool found_watermelon() {
   return false;
 }
 
@@ -57,7 +57,7 @@ int main(int argc, char** argv){
     if(ac.getState() == actionlib::SimpleClientGoalState::SUCCEEDED) {
       ROS_INFO("The base successfully moved to (%.2f, %.2f)", std::get<0>(*it), std::get<1>(*it));
       ros::spinOnce();
-      ROS_INFO("%s", found_watermelon(cam_sub)?"True":"False");
+      ROS_INFO("%s", found_watermelon()?"True":"False");
     }
     else
       ROS_INFO("The base failed to move to (%.2f, %.2f)", std::get<0>(*it), std::get<1>(*it));
