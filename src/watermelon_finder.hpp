@@ -1,5 +1,6 @@
 #include <iostream>
 #include <ros/ros.h>
+#include <ros/topic.h>
 #include <move_base_msgs/MoveBaseAction.h>
 #include <actionlib/client/simple_action_client.h>
 #include <vector>
@@ -10,6 +11,8 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <image_transport/image_transport.h>
 #include <cv_bridge/cv_bridge.h>
+#include <string>
+#include <std_msgs/String.h>
 
 #define NAV_DEBUG 1
 #define IMG_DEBUG 1

@@ -15,6 +15,7 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
   sensor_msgs
+  std_msgs
 )
 find_package(OpenCV REQUIRED)
 
@@ -142,7 +143,7 @@ include_directories(
 # add_executable(${PROJECT_NAME}_node src/StrongA_node.cpp)
 add_executable(watermelon_finder src/watermelon_finder.cpp)
 
-## Rename C++ executable without prefix
+## Rename C++ executable without prefixs
 ## The above recommended prefix causes long target names, the following renames the
 ## target back to the shorter version for ease of user use
 ## e.g. "rosrun someones_pkg node" instead of "rosrun someones_pkg someones_pkg_node"
@@ -168,10 +169,10 @@ target_link_libraries(watermelon_finder ${catkin_LIBRARIES} ${OpenCV_LIBS})
 
 ## Mark executable scripts (Python etc.) for installation
 ## in contrast to setup.py, you can choose the destination
-# catkin_install_python(PROGRAMS
-#   scripts/my_python_script
-#   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-# )
+catkin_install_python(PROGRAMS
+  src/watermelon_identifier.py
+  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
 
 ## Mark executables for installation
 ## See http://docs.ros.org/melodic/api/catkin/html/howto/format1/building_executables.html

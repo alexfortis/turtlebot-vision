@@ -4,9 +4,18 @@ using std::vector;
 using std::make_tuple;
 
 cv_bridge::CvImagePtr img;
+ros::NodeHandle nh;
+image_transport::ImageTransport it(nh);
+image_transport::Publisher img_pub;
+const std::string TO_TF_TOPIC = "/cpptopy", FROM_TF_TOPIC = "/pytocpp";
+
 
 bool found_watermelon() {
   return false;
+}
+
+void callback_tf(const std_msgs::String::ConstPtr& result) {
+  ROS_INFO("%s", result->data.c_str());
 }
 
 void callback_camera(const sensor_msgs::Image::ConstPtr& img_msg) {
@@ -21,6 +30,8 @@ void callback_camera(const sensor_msgs::Image::ConstPtr& img_msg) {
   cv::destroyWindow("Robot View");
   ROS_INFO("Showed the image");
 #endif
+  img_pub.publish(*img_msg);
+  ros::topic::waitForMessage<std_msgs::String>(FROM_TF_TOPIC, nh);
 }
 
 std::ostream &operator<<(std::ostream &os, const Goal &g) {
@@ -33,8 +44,11 @@ int main(int argc, char** argv){
   ros::init(argc, argv, "watermelon_finder");
 
   //use to process images
-  ros::NodeHandle nh;
+  //ros::NodeHandle nh;
   ros::Subscriber cam_sub = nh.subscribe("/camera/rgb/image_raw", 1, callback_camera);
+  ros::Subscriber tf_sub = nh.subscribe(FROM_TF_TOPIC, 1, callback_tf);
+  //it = new image_transport::ImageTransport(nh);
+  img_pub = it.advertise(TO_TF_TOPIC, 1);
 
   //tell the action client that we want to spin a thread by default
   MoveBaseClient ac("move_base", true);
