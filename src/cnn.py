@@ -5,6 +5,8 @@ import cv2
 import tensorflow as tf
 import numpy as np
 
+#THIS IS JUST TO UPLOAD SOME PICTURES AND MAKE PREDICTIONS
+
 def prepare(filepath):
     IMG_SIZE = 100 
     img_array = cv2.imread(filepath)

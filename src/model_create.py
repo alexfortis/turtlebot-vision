@@ -15,6 +15,7 @@ import cv2
 from tqdm import tqdm
 import random
 
+#THIS CODE WONT work SINCE I DID IT IN WINDOWS PART OF MY SYSTEM FOR THE MODEL TRAINING WE USED ANACONDA JUPYTER NOTEBOOK IN WINDOWS.
 
 DATADIR = "C:/Users/Aral/Desktop/Project_3"
 
