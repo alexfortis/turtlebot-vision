@@ -4,10 +4,7 @@ using std::vector;
 using std::make_tuple;
 
 cv_bridge::CvImagePtr img;
-ros::NodeHandle nh;
-image_transport::ImageTransport it(nh);
 image_transport::Publisher img_pub;
-const std::string TO_TF_TOPIC = "/cpptopy", FROM_TF_TOPIC = "/pytocpp";
 
 
 bool found_watermelon() {
@@ -31,7 +28,7 @@ void callback_camera(const sensor_msgs::Image::ConstPtr& img_msg) {
   ROS_INFO("Showed the image");
 #endif
   img_pub.publish(*img_msg);
-  ros::topic::waitForMessage<std_msgs::String>(FROM_TF_TOPIC, nh);
+  ros::topic::waitForMessage<std_msgs::String>(FROM_TF_TOPIC);
 }
 
 std::ostream &operator<<(std::ostream &os, const Goal &g) {
@@ -45,6 +42,8 @@ int main(int argc, char** argv){
 
   //use to process images
   //ros::NodeHandle nh;
+  ros::NodeHandle nh;
+  image_transport::ImageTransport it(nh);
   ros::Subscriber cam_sub = nh.subscribe("/camera/rgb/image_raw", 1, callback_camera);
   ros::Subscriber tf_sub = nh.subscribe(FROM_TF_TOPIC, 1, callback_tf);
   //it = new image_transport::ImageTransport(nh);

@@ -17,6 +17,8 @@
 #define NAV_DEBUG 1
 #define IMG_DEBUG 1
 
+const std::string TO_TF_TOPIC = "/cpptopy", FROM_TF_TOPIC = "/pytocpp";
+
 typedef actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> MoveBaseClient;
 typedef std::tuple<double, double, double, double> Goal;
 
